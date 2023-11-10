@@ -109,38 +109,27 @@ def get_query(query):
 
 def main():
     try:
-        '''
-        file_csv = openai.files.create(
-            file=open("context/StudentsPerformance.csv", "rb"),
-            purpose='assistants'
-        )
-        
-        file_txt = openai.files.create(
-            file=open("context/math_essay.txt", "rb"),
-            purpose='assistants'
-        )
-        '''
-
         with open("context/StudentsPerformance.csv", "rb") as file_handle_csv:
             file_csv = openai.files.create(
                 file=file_handle_csv,
                 purpose='assistants'
             )
-
+        '''
         with open("context/math_essay.txt", "rb") as file_handle_txt:
             file_txt = openai.files.create(
                 file=file_handle_txt,
                 purpose='assistants'
             )
+        '''
         # Create a new assistant
         assistant = openai.beta.assistants.create(
             name="Math Tutor",
-            instructions="You are a personal math tutor. You have access to math essay documentation. You also write and run code to answer math questions. Also create data visualizations where requested.\
+            instructions="You are a personal math tutor. You have access to math essay documentation in a .txt file. You also write and run code to answer math questions. Also create data visualizations where requested.\
             You can analyze data present in .csv files, understand trends, and come up with data visualizations relevant to those trends.\
             You also share a brief text summary of the trends observed.",
-            tools=[{"type":"code_interpreter"}, {"type": "retrieval"}],
+            tools=[{"type":"code_interpreter"}], #{'type': 'retrieval'}],
             model="gpt-4-1106-preview",
-            file_ids=[file_csv.id, file_txt.id]
+            file_ids=[file_csv.id] #, file_txt.id]
         )
 
         print("\nHello there, I'm your personal math tutor. Ask some complicated questions.\n")
